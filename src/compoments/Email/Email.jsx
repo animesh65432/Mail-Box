@@ -1,18 +1,32 @@
 import JoditEditor from "jodit-react";
 import { useRef, useState } from "react";
+import axios from "axios";
+import { databse } from "../../assets/Needed";
+import { useSelector } from "react-redux";
 
 const Email = () => {
   const editor = useRef(null);
   const [recipient, setRecipient] = useState("");
   const [subject, setSubject] = useState("");
   const [content, setContent] = useState("");
+  const currenuser = useSelector((state) => state.Auth.email);
 
-  const handleSend = () => {
+  const handleSend = async () => {
     const obj = {
       recipient: recipient,
       subject: subject,
       content: content,
     };
+
+    try {
+      let withoutcom = currenuser.split(".");
+      let string = withoutcom[0] + withoutcom[1];
+      let url = databse + string + "/Save.json";
+      let response = await axios.post(url, obj);
+      console.log(response);
+    } catch (errors) {
+      alert(errors?.message);
+    }
   };
 
   return (

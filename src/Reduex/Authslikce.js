@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const AuthSlice = createSlice({
   name: "AuthSlice",
   initialState: {
-    email: "",
+    email: localStorage.getItem("email"),
   },
   reducers: {
     gettheemail: (state, action) => {
