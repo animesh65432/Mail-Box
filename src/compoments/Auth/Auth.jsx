@@ -1,6 +1,8 @@
 import React, { useRef, useState } from "react";
 import axios from "axios";
 import { signin, signup, webkey } from "../../assets/Needed";
+import { useDispatch } from "react-redux";
+import { gettheemail, deltetheemail } from "../../Reduex/Authslikce";
 
 const Auth = () => {
   const emailref = useRef();
@@ -9,6 +11,7 @@ const Auth = () => {
   const [toggole, setToggole] = useState(false);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
 
   const OnToggole = () => {
     setToggole((prev) => !prev);
@@ -20,7 +23,7 @@ const Auth = () => {
     let email = emailref.current.value;
     if (password === "" || email === "") {
       setError(true);
-      setLoading(true); // Reset loading state
+      setLoading(true);
       return;
     }
     if (toggole) {
@@ -53,7 +56,7 @@ const Auth = () => {
       };
       try {
         let response = await axios.post(totalstring, obj);
-        console.log(response);
+        dispatch(gettheemail(email));
       } catch (error) {
         alert(error.message);
       }
@@ -97,7 +100,7 @@ const Auth = () => {
           <button
             className="w-full bg-blue-500 text-white rounded px-4 py-2"
             onClick={OnuserClick}
-            disabled={!loading} // Disable button when loading
+            disabled={!loading}
           >
             {!toggole ? "Log in" : "Sign up"}
           </button>

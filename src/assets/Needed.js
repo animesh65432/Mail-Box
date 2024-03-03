@@ -3,3 +3,4 @@ export const signin =
   "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=";
 export const signup =
   "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=";
+export const databse = "https://mail-box-3eef5-default-rtdb.firebaseio.com/";
