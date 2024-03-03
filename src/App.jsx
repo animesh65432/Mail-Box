@@ -1,10 +1,10 @@
-import { useState } from "react";
 import Email from "./compoments/Email/Email";
-import { Route, RouterProvider, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Auth from "./compoments/Auth/Auth";
 import Inbox from "./compoments/inbox/Inbox";
 import Header from "./compoments/Header/Header";
+import Inboxfull from "./compoments/inbox/Inboxfull";
 const App = () => {
   const currentuseremail = useSelector((state) => state.Auth.email);
   const isuserexist = !!currentuseremail;
@@ -15,13 +15,14 @@ const App = () => {
         <div>
           <Header />
           <Routes>
-            <Route path="/" element={<Email />}></Route>
-            <Route path="/inbox" element={<Inbox />}></Route>
+            <Route path="/" element={<Email />} />
+            <Route path="/inbox" element={<Inbox />} />
+            <Route path="/messages/:id" element={<Inboxfull />} />
           </Routes>
         </div>
       ) : (
         <Routes>
-          <Route path="/" element={<Auth />}></Route>
+          <Route path="/" element={<Auth />} />
         </Routes>
       )}
     </>

@@ -1,7 +1,7 @@
 import JoditEditor from "jodit-react";
 import { useRef, useState } from "react";
 import axios from "axios";
-import { databse } from "../../assets/Needed";
+import { database } from "../../assets/Needed";
 
 const Email = () => {
   const editor = useRef(null);
@@ -22,7 +22,7 @@ const Email = () => {
 
     try {
       const reciver = recipient.split(".");
-      const url = `${databse}${reciver}/Save.json`;
+      const url = `${database}${reciver}/Save.json`;
       const response = await axios.post(url, emailData);
       console.log(response);
     } catch (error) {
