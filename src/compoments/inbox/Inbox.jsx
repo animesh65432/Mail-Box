@@ -1,52 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import axios from "axios";
-import { database } from "../../assets/Needed";
+import React from "react";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useFetchMessages, useDeleteEmail } from "../../Customhook/inbox.js";
 
 const Inbox = () => {
   const currentuseremail = useSelector((state) => state.Auth.email);
-  const [messages, setMessages] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { messages, loading, refetchMessages } =
+    useFetchMessages(currentuseremail);
+  const deleteEmail = useDeleteEmail(currentuseremail);
 
-  async function fetchMessages() {
-    try {
-      const email = currentuseremail.replace(".", ",");
-      const url = `${database}${email}/Save.json`;
-      const response = await axios.get(url);
-      console.log(response);
-      const data = response.data;
-      const messagesArray = Object.entries(data).map(([id, message]) => ({
-        id,
-        ...message,
-      }));
-      setMessages(messagesArray);
-      setLoading(false);
-    } catch (error) {
-      console.error("Error fetching messages:", error);
-      setMessages([]);
-      setLoading(false);
-    }
-  }
+  const handleDeleteEmail = async (id) => {
+    await deleteEmail(id);
 
-  async function deltetheemail(id) {
-    try {
-      let usersperation = currentuseremail.replace(".", ",");
-      let url = `${database}${usersperation}/Save/${id}.json`;
-      console.log(url);
-      let reponse = await axios.delete(url);
-      console.log(reponse);
-      fetchMessages();
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-  useEffect(() => {
-    fetchMessages();
-  }, [currentuseremail]);
-
-  console.log(messages);
+    refetchMessages();
+  };
 
   return (
     <div className="flex justify-center items-center h-full">
@@ -74,7 +41,7 @@ const Inbox = () => {
                     </div>
                   </div>
                 </Link>
-                <button onClick={() => deltetheemail(message.id)}>
+                <button onClick={() => handleDeleteEmail(message.id)}>
                   Delete
                 </button>
               </div>

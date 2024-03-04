@@ -1,40 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
-import axios from "axios";
-import { database } from "../../assets/Needed";
-import { Link } from "react-router-dom";
-
-const Inbox = () => {
-  const curentuseremail = useSelector((state) => state.Auth.email);
-  const [messages, setMessages] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  async function fetchMessages() {
-    try {
-      let email = curentuseremail.split(".");
-      let emailwihtoutcom = email[0] + email[1];
-      let url = `${database}${emailwihtoutcom}sent/Save.json`;
-      console.log(url);
-      let reponse = await axios.get(url);
-      const data = reponse?.data;
-      const messagesArray = Object.entries(data).map(([id, message]) => ({
-        id,
-        ...message,
-      }));
-      setMessages(messagesArray);
-      setLoading(false);
-    } catch (error) {
-      console.error("Error fetching messages:", error);
-      setMessages([]);
-      setLoading(false);
-    }
-  }
-
-  useEffect(() => {
-    fetchMessages();
-  }, [curentuseremail]);
-
-  console.log(messages);
+import { useFetchSentMessages } from "../../Customhook/sent";
+const Sent = () => {
+  const currentUserEmail = useSelector((state) => state.Auth.email);
+  const { messages, loading } = useFetchSentMessages(currentUserEmail);
 
   return (
     <div className="flex justify-center items-center h-full">
@@ -52,10 +21,10 @@ const Inbox = () => {
                   <div className="email-item-content">
                     <h2 className="font-bold mb-1">{message.subject}</h2>
                     <p className="text-gray-600 mb-1">
-                      <strong>From:</strong> {message.recipient}
+                      <strong>From:</strong> {message.sender}
                     </p>
                     <p className="text-gray-600 mb-1">
-                      <strong>To:</strong> {curentuseremail}
+                      <strong>To:</strong> {message.recipient}
                     </p>
                     <p className="text-gray-800">{message.content}</p>
                   </div>
@@ -64,7 +33,7 @@ const Inbox = () => {
             ))
           ) : (
             <p className="text-gray-600 text-center">
-              You don't have any messages.
+              You haven't sent any messages.
             </p>
           )}
         </div>
@@ -73,4 +42,4 @@ const Inbox = () => {
   );
 };
 
-export default Inbox;
+export default Sent;

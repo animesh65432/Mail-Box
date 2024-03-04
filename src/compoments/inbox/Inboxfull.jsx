@@ -1,10 +1,12 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { useFetchMessageInboxfullById } from "../../Customehooks/Customhooks";
+import { useSelector } from "react-redux";
+import fullemailshow from "../../Customhook/fullemailshow";
 
 const Inboxfull = () => {
   const { id } = useParams();
-  const { message, loading } = useFetchMessageInboxfullById(id);
+  const currentuseremail = useSelector((state) => state.Auth.email);
+  const { loading, message } = fullemailshow(currentuseremail, id);
 
   if (loading) {
     return (
