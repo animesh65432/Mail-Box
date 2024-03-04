@@ -14,6 +14,7 @@ const Inbox = () => {
       let email = curentuseremail.split(".");
       let emailwihtoutcom = email[0] + email[1];
       let url = `${database}${emailwihtoutcom}sent/Save.json`;
+      console.log(url);
       let reponse = await axios.get(url);
       const data = reponse?.data;
       const messagesArray = Object.entries(data).map(([id, message]) => ({

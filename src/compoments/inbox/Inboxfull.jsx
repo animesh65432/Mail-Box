@@ -1,32 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
-import { database } from "../../assets/Needed";
-import { useSelector } from "react-redux";
+import { useFetchMessageInboxfullById } from "../../Customehooks/Customhooks";
 
 const Inboxfull = () => {
   const { id } = useParams();
-  const currentuseremail = useSelector((state) => state.Auth.email);
-  const [message, setMessage] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        let withoutcom = currentuseremail.split(".");
-        const usersperation = withoutcom[0] + withoutcom[1];
-        const url = `${database}${usersperation}/Save/${id}.json`;
-        const response = await axios.get(url);
-        setMessage(response.data);
-      } catch (err) {
-        console.log(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [currentuseremail, id]);
+  const { message, loading } = useFetchMessageInboxfullById(id);
 
   if (loading) {
     return (

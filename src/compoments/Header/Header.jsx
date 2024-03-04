@@ -1,14 +1,15 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { deltetheemail } from "../../Reduex/Authslikce";
 
 const Header = () => {
   const dispatch = useDispatch();
-
+  const Navigate = useNavigate();
   const Onlogooutuser = () => {
     console.log("clicked");
     dispatch(deltetheemail(""));
+    Navigate("/");
   };
   return (
     <>

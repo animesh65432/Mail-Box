@@ -25,6 +25,7 @@ const Email = () => {
     try {
       const reciver = recipient.split(".");
       const url = `${database}${reciver}/Save.json`;
+      console.log(url);
       const response = await axios.post(url, emailData);
       SaveIntheAcoount(emailData);
     } catch (error) {

@@ -11,10 +11,10 @@ const Inbox = () => {
 
   async function fetchMessages() {
     try {
-      const email = currentuseremail.replace(".", "");
+      const email = currentuseremail.replace(".", ",");
       const url = `${database}${email}/Save.json`;
       const response = await axios.get(url);
-
+      console.log(response);
       const data = response.data;
       const messagesArray = Object.entries(data).map(([id, message]) => ({
         id,
@@ -31,8 +31,7 @@ const Inbox = () => {
 
   async function deltetheemail(id) {
     try {
-      let emailarray = currentuseremail.split(".");
-      let usersperation = emailarray[0] + emailarray[1];
+      let usersperation = currentuseremail.replace(".", ",");
       let url = `${database}${usersperation}/Save/${id}.json`;
       console.log(url);
       let reponse = await axios.delete(url);
