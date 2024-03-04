@@ -54,7 +54,7 @@ const Email = () => {
           ref={editor}
           value={content}
           onChange={(newContent) => setContent(newContent)}
-          className="border border-gray-300 rounded p-2 focus:outline-none focus:border-blue-500 h-96" // Increased height
+          className="border border-gray-300 rounded p-2 focus:outline-none focus:border-blue-500 h-96" 
         />
 
         <button
