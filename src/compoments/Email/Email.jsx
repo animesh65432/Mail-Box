@@ -2,12 +2,14 @@ import JoditEditor from "jodit-react";
 import { useRef, useState } from "react";
 import axios from "axios";
 import { database } from "../../assets/Needed";
+import { useSelector } from "react-redux";
 
 const Email = () => {
   const editor = useRef(null);
   const [recipient, setRecipient] = useState("");
   const [subject, setSubject] = useState("");
   const [content, setContent] = useState("");
+  const cuurentuseremail = useSelector((state) => state.Auth.email);
 
   const handleSend = async () => {
     if (recipient == "") {
@@ -24,11 +26,21 @@ const Email = () => {
       const reciver = recipient.split(".");
       const url = `${database}${reciver}/Save.json`;
       const response = await axios.post(url, emailData);
-      console.log(response);
+      SaveIntheAcoount(emailData);
     } catch (error) {
       alert(error.message);
     }
   };
+
+  async function SaveIntheAcoount(obj) {
+    try {
+      let email = cuurentuseremail.split(".");
+      let emailwihtoutcom = email[0] + email[1];
+      let url = `${database}${emailwihtoutcom}sent/Save.json`;
+      let reponse = await axios.post(url, obj);
+      console.log(reponse);
+    } catch (err) {}
+  }
 
   return (
     <div className="font-sans flex flex-col items-center justify-center min-h-screen">
@@ -54,7 +66,7 @@ const Email = () => {
           ref={editor}
           value={content}
           onChange={(newContent) => setContent(newContent)}
-          className="border border-gray-300 rounded p-2 focus:outline-none focus:border-blue-500 h-96" 
+          className="border border-gray-300 rounded p-2 focus:outline-none focus:border-blue-500 h-96"
         />
 
         <button

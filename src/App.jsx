@@ -5,6 +5,7 @@ import Auth from "./compoments/Auth/Auth";
 import Inbox from "./compoments/inbox/Inbox";
 import Header from "./compoments/Header/Header";
 import Inboxfull from "./compoments/inbox/Inboxfull";
+import Sent from "./compoments/Sent/Sent";
 const App = () => {
   const currentuseremail = useSelector((state) => state.Auth.email);
   const isuserexist = !!currentuseremail;
@@ -18,6 +19,7 @@ const App = () => {
             <Route path="/" element={<Email />} />
             <Route path="/inbox" element={<Inbox />} />
             <Route path="/messages/:id" element={<Inboxfull />} />
+            <Route path="/sent" element={<Sent />}></Route>
           </Routes>
         </div>
       ) : (
