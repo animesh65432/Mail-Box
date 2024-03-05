@@ -1,9 +1,25 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { useFetchSentMessages } from "../../Customhook/sent";
+import axios from "axios";
 const Sent = () => {
   const currentUserEmail = useSelector((state) => state.Auth.email);
-  const { messages, loading } = useFetchSentMessages(currentUserEmail);
+  const { messages, loading, refetchMessages } =
+    useFetchSentMessages(currentUserEmail);
+
+  const deletetheSentMessages = async (id) => {
+    console.log(id);
+    try {
+      let emailWithoutDot = currentUserEmail.replace(".", "");
+
+      let response = await axios.delete(
+        `https://mail-box-3eef5-default-rtdb.firebaseio.com/${emailWithoutDot}sent/Save/${id}.json`
+      );
+      refetchMessages();
+    } catch (errors) {
+      console.log(errors);
+    }
+  };
 
   return (
     <div className="flex justify-center items-center h-full">
@@ -21,13 +37,13 @@ const Sent = () => {
                   <div className="email-item-content">
                     <h2 className="font-bold mb-1">{message.subject}</h2>
                     <p className="text-gray-600 mb-1">
-                      <strong>From:</strong> {message.sender}
-                    </p>
-                    <p className="text-gray-600 mb-1">
                       <strong>To:</strong> {message.recipient}
                     </p>
                     <p className="text-gray-800">{message.content}</p>
                   </div>
+                  <button onClick={() => deletetheSentMessages(message.id)}>
+                    delete
+                  </button>
                 </div>
               </div>
             ))

@@ -9,15 +9,18 @@ const Inbox = () => {
     useFetchMessages(currentuseremail);
   const deleteEmail = useDeleteEmail(currentuseremail);
 
+
   const handleDeleteEmail = async (id) => {
     await deleteEmail(id);
-
     refetchMessages();
   };
 
   return (
     <div className="flex justify-center items-center h-full">
       <div className="container mx-auto">
+        <div>
+          <h3>Unread Message</h3>
+        </div>
         <h1 className="text-3xl font-bold mb-4 text-center">
           Inbox ({messages.length})
         </h1>
