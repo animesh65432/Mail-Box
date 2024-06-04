@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import App from "./App.jsx";
 import "./index.css";
 import { Provider } from "react-redux";
-import { store } from "./reduex/store.js";
+import { store } from "./Reduex/store.js";
 import { BrowserRouter } from "react-router-dom";
 
 const Root = (
