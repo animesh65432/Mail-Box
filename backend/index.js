@@ -1,6 +1,7 @@
 const dotenv = require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
+const { connecttionthedatabse } = require("./db");
 
 const app = express();
 app.use(cors());
@@ -10,6 +11,13 @@ app.get("/", async (req, res) => {
   });
 });
 
-app.listen(process.env.port, () => {
-  console.log(`server start at  the port ${process.env.port}`);
-});
+connecttionthedatabse()
+  .then((res) => {
+    console.log(res);
+    app.listen(process.env.port, () => {
+      console.log(`server start at  the port ${process.env.port}`);
+    });
+  })
+  .catch((error) => {
+    console.log(error);
+  });
