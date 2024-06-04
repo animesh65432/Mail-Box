@@ -2,14 +2,10 @@ const dotenv = require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const { connecttionthedatabse } = require("./db");
-
+const router = require("./router");
 const app = express();
 app.use(cors());
-app.get("/", async (req, res) => {
-  res.status(201).json({
-    message: "Hello my name is Animesh dutta",
-  });
-});
+app.use("/user", router.userrouter);
 
 connecttionthedatabse()
   .then((res) => {
