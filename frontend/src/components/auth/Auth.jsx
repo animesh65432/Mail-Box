@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import axios from "axios";
 import { signin, signup, webkey } from "../../assets/Needed";
 import { useDispatch } from "react-redux";
-import { gettheemail } from "../../Reduex/Authslikce";
+import { gettheemail } from "../../Reduex/Authslice";
 
 const Auth = () => {
   const emailref = useRef();
