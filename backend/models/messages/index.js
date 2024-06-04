@@ -13,6 +13,10 @@ const MessagesSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  sender: {
+    type: mongoose.Types.ObjectId,
+    ref: "User",
+  },
 });
 
 const Messages = mongoose.model("Messages", MessagesSchema);

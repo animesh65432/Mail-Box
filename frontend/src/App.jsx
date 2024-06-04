@@ -7,7 +7,7 @@ import Header from "./components/header/Header";
 import Inboxfull from "./components/inbox/Inboxfull";
 import Sent from "./components/sent/Sent";
 const App = () => {
-  const currentuseremail = useSelector((state) => state.Auth.email);
+  const currentuseremail = useSelector((state) => state.Auth.idtoken);
   const isuserexist = !!currentuseremail;
 
   return (

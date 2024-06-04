@@ -5,11 +5,12 @@ const { connecttionthedatabse } = require("./db");
 const router = require("./router");
 const app = express();
 app.use(cors());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use("/user", router.userrouter);
 
 connecttionthedatabse()
   .then((res) => {
-    console.log(res);
     app.listen(process.env.port, () => {
       console.log(`server start at  the port ${process.env.port}`);
     });

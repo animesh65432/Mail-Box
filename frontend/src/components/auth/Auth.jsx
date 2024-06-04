@@ -1,118 +1,99 @@
 import React, { useRef, useState } from "react";
-import axios from "axios";
-import { signin, signup, webkey } from "../../assets/Needed";
-import { useDispatch } from "react-redux";
-import { gettheemail } from "../../Reduex/Authslice";
+import UseLoginHook from "../../customhooks/Useloginhooks";
+import Usesignuphooks from "../../customhooks/Usesignuphooks";
 
 const Auth = () => {
-  const emailref = useRef();
-  const passwordref = useRef();
-  const Confirmpasswordref = useRef();
-  const [toggole, setToggole] = useState(false);
+  const emailRef = useRef();
+  const passwordRef = useRef();
+  const confirmPasswordRef = useRef();
+  const [toggle, setToggle] = useState(false);
   const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const dispatch = useDispatch();
-
-  const OnToggole = () => {
-    setToggole((prev) => !prev);
+  const [signupLoading, createUser] = Usesignuphooks();
+  const [loginLoading, loginUser] = UseLoginHook();
+  const onToggle = () => {
+    setToggle((prev) => !prev);
+    setError(false);
   };
 
-  const OnuserClick = async () => {
-    setLoading(false);
-    let password = passwordref.current.value;
-    let email = emailref.current.value;
-    if (password === "" || email === "") {
+  const onUserClick = async () => {
+    setError(false);
+    const email = emailRef.current.value;
+    const password = passwordRef.current.value;
+
+    if (!email || !password) {
       setError(true);
-      setLoading(true);
       return;
     }
-    if (toggole) {
-      let Confirmpassword = Confirmpasswordref.current.value;
 
-      if (Confirmpassword === "" || password !== Confirmpassword) {
+    if (toggle) {
+      const confirmPassword = confirmPasswordRef.current.value;
+      if (!confirmPassword || password !== confirmPassword) {
         setError(true);
-        setLoading(true);
         return;
-      } else {
-        const obj = {
-          email: email,
-          password: password,
-          returnSecureToken: true,
-        };
-        let totalstring = signup + webkey;
-        try {
-          let response = await axios.post(totalstring, obj);
-          console.log(response);
-        } catch (error) {
-          alert(error.message);
-        }
+      }
+
+      try {
+        const response = await createUser({ email, password });
+      } catch (error) {
+        console.log(error);
       }
     } else {
-      let totalstring = signin + webkey;
-      const obj = {
-        email: email,
-        password: password,
-        returnSecureToken: true,
-      };
       try {
-        let response = await axios.post(totalstring, obj);
-        dispatch(gettheemail(email));
+        const response = await loginUser({ email, password });
+        console.log(response);
       } catch (error) {
-        alert(error.message);
+        alert(error);
       }
     }
-    setLoading(true);
   };
 
   return (
-    <>
-      <div className="flex justify-center items-center h-screen bg-gray-100">
-        <div className="bg-white p-8 rounded shadow-md">
-          <h1 className="text-2xl font-semibold mb-4">
-            {!toggole ? "Log in" : "Sign up"}
-          </h1>
-          <input
-            type="email"
-            placeholder="Email"
-            className={`w-full border rounded px-3 py-2 mb-3 ${
-              error && loading ? "border-red-500" : ""
-            }`}
-            ref={emailref}
-          />
+    <div className="flex justify-center items-center h-screen bg-gray-100">
+      <div className="bg-white p-8 rounded shadow-md">
+        <h1 className="text-2xl font-semibold mb-4">
+          {toggle ? "Sign Up" : "Log In"}
+        </h1>
+        <input
+          type="email"
+          placeholder="Email"
+          className={`w-full border rounded px-3 py-2 mb-3 ${
+            error ? "border-red-500" : ""
+          }`}
+          ref={emailRef}
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          className={`w-full border rounded px-3 py-2 mb-3 ${
+            error ? "border-red-500" : ""
+          }`}
+          ref={passwordRef}
+        />
+        {toggle && (
           <input
             type="password"
-            placeholder="Password"
+            placeholder="Confirm Password"
             className={`w-full border rounded px-3 py-2 mb-3 ${
-              error && loading ? "border-red-500" : ""
+              error ? "border-red-500" : ""
             }`}
-            ref={passwordref}
+            ref={confirmPasswordRef}
           />
-          {toggole && (
-            <input
-              type="password"
-              placeholder="Confirm Password"
-              className={`w-full border rounded px-3 py-2 mb-3 ${
-                error && loading ? "border-red-500" : ""
-              }`}
-              ref={Confirmpasswordref}
-            />
-          )}
-          <button
-            className="w-full bg-blue-500 text-white rounded px-4 py-2"
-            onClick={OnuserClick}
-            disabled={!loading}
-          >
-            {!toggole ? "Log in" : "Sign up"}
+        )}
+        <button
+          className="w-full bg-blue-500 text-white rounded px-4 py-2"
+          onClick={onUserClick}
+        >
+          {toggle ? "Sign Up" : "Log In"}
+          {(loginLoading || signupLoading) && "Loading..."}
+        </button>
+        <p className="mt-4 text-center text-sm">
+          {toggle ? "Already have an account?" : "Don't have an account?"}
+          <button href="#" className="text-blue-500" onClick={onToggle}>
+            {toggle ? "Log In" : "Sign Up"}
           </button>
-          <p className="mt-4 text-center text-sm">
-            {!toggole && "Have an Account"}
-            <button href="#" className="text-blue-500" onClick={OnToggole}>
-              {toggole ? "Log in" : "Sign up"}
-            </button>
-          </p>
-        </div>
+        </p>
       </div>
-    </>
+    </div>
   );
 };
 
