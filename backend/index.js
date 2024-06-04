@@ -8,6 +8,7 @@ app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use("/user", router.userrouter);
+app.use("/Email", router.emailrouter);
 
 connecttionthedatabse()
   .then((res) => {

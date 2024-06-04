@@ -1,48 +1,37 @@
 import JoditEditor from "jodit-react";
 import { useRef, useState } from "react";
-import axios from "axios";
-import { database } from "../../assets/Needed";
 import { useSelector } from "react-redux";
+import UseSenthook from "../../customhooks/UseSenthook";
 
 const Email = () => {
   const editor = useRef(null);
   const [recipient, setRecipient] = useState("");
   const [subject, setSubject] = useState("");
   const [content, setContent] = useState("");
-  const cuurentuseremail = useSelector((state) => state.Auth.email);
+  const idtoken = useSelector((state) => state.Auth.idtoken);
+  const [loading, senttomessagetouser] = UseSenthook();
 
   const handleSend = async () => {
-    if (recipient == "") {
-      alert("please give me email");
+    if (recipient === "" || content === "") {
       return;
     }
-    const emailData = {
-      recipient: recipient,
-      subject: subject,
-      content: content,
-    };
 
     try {
-      const reciver = recipient.split(".");
-      const url = `${database}${reciver}/Save.json`;
-      console.log(url);
-      const response = await axios.post(url, emailData);
-      alert("YOU SUCEESSFULLY SENT THE EMAIL");
-      SaveIntheAcoount(emailData);
+      let contentwithoutp = content.slice(3);
+      let conttentwithoutpfromlast = contentwithoutp.replace("</p>", "");
+      const emailData = {
+        recipient: recipient,
+        subject: subject,
+        content: conttentwithoutpfromlast,
+        idtoken: idtoken,
+      };
+
+      let response = await senttomessagetouser(emailData);
+      console.log(response);
     } catch (error) {
-      alert(error.message);
+      console.log(error);
     }
   };
-
-  async function SaveIntheAcoount(obj) {
-    try {
-      let email = cuurentuseremail.split(".");
-      let emailwihtoutcom = email[0] + email[1];
-      let url = `${database}${emailwihtoutcom}sent/Save.json`;
-      let reponse = await axios.post(url, obj);
-      console.log(reponse);
-    } catch (err) {}
-  }
 
   return (
     <div className="font-sans flex flex-col items-center justify-center min-h-screen">

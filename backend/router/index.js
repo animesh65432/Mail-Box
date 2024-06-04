@@ -1,3 +1,3 @@
 const userrouter = require("./user");
-
-module.exports = { userrouter };
+const emailrouter = require("./email");
+module.exports = { userrouter, emailrouter };

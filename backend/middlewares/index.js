@@ -18,7 +18,7 @@ const authentication = async (request, response, next) => {
         data: "invaild creadational",
       });
     }
-
+    request.user = isuser;
     next();
   } catch (error) {
     return response.status(StatusCodes.INTERNAL_SERVER_ERROR).json({

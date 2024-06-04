@@ -1,3 +1,4 @@
 const User = require("./user");
 const Messages = require("./messages");
-module.exports = { User, Messages };
+const Content = require("./content");
+module.exports = { User, Messages, Content };
