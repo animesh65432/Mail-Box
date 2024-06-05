@@ -128,9 +128,40 @@ const deletetheemail = async (request, response) => {
   }
 };
 
+const GetTheOnePrticularOne = async (request, response) => {
+  try {
+    let { id } = request.params;
+    console.log(id);
+    let ismsg = await Content.findById(id);
+    console.log(ismsg);
+
+    if (!ismsg)
+      return response.status(StatusCodes.BAD_REQUEST).json({
+        data: "messages don't found",
+      });
+    let msg = await Messages.findOne({
+      sender: request.user._id,
+      content: [id],
+    })
+      .populate("content")
+      .populate("sender", "email")
+      .populate("recipient", "email");
+
+    return response.status(StatusCodes.OK).json({
+      data: msg,
+    });
+  } catch (error) {
+    console.log(error);
+    return response.status(StatusCodes.OK).json({
+      data: "Something went wrong",
+    });
+  }
+};
+
 module.exports = {
   senttheemail,
   deletetheemail,
   Getthesentboxemail,
   GetTheInboxemail,
+  GetTheOnePrticularOne,
 };

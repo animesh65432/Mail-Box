@@ -4,6 +4,7 @@ const {
   deletetheemail,
   Getthesentboxemail,
   GetTheInboxemail,
+  GetTheOnePrticularOne,
 } = require("./email");
 module.exports = {
   usercontroller: { createtheuuser, logintheuser },
@@ -12,5 +13,6 @@ module.exports = {
     GetTheInboxemail,
     deletetheemail,
     Getthesentboxemail,
+    GetTheOnePrticularOne,
   },
 };

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import UseGetalltheinbox from "../../customhooks/UseGetalltheinbox";
 import UsedeletetheEmail from "../../customhooks/UsedeletetheEmail";
+import { Link } from "react-router-dom";
 
 const Inbox = () => {
   const [messages, setMessages] = useState([]);
@@ -38,20 +39,37 @@ const Inbox = () => {
           ) : (
             <div>
               {messages.map((message) => (
-                <div key={message._id} className="mb-4">
-                  <p>Sender: {message.sender.email}</p>
-                  <div>
-                    <h3>Content:</h3>
+                <div
+                  key={message._id}
+                  className="mb-4 border-b border-gray-200"
+                >
+                  <p className="text-lg font-semibold">
+                    Sender: {message.sender.email}
+                  </p>
+                  <div className="mt-2">
+                    <h3 className="text-xl font-semibold mb-1">Content:</h3>
                     <ul>
                       {message.content.map((content) => (
-                        <div key={content._id}>
-                          {content.content}
-                          <button
-                            onClick={() => handleDeleteEmail(content._id)}
-                          >
-                            Delete
-                          </button>
-                        </div>
+                        <li
+                          key={content._id}
+                          className="flex items-center justify-between py-2"
+                        >
+                          <div>{content.content}</div>
+                          <div className="flex items-center space-x-4">
+                            <button
+                              onClick={() => handleDeleteEmail(content._id)}
+                              className="bg-red-700 hover:bg-red-500 text-white font-semibold py-1 px-3 rounded focus:outline-none focus:ring focus:ring-red-400"
+                            >
+                              {emailloading ? "Loading" : "Delete"}
+                            </button>
+                            <Link
+                              to={`/messages/${content._id}`}
+                              className="text-blue-500 font-semibold hover:underline"
+                            >
+                              Details
+                            </Link>
+                          </div>
+                        </li>
                       ))}
                     </ul>
                   </div>

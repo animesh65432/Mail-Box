@@ -19,5 +19,10 @@ router.delete(
   authentication,
   emailcontroller.deletetheemail
 );
+router.get(
+  "/GetOne/:id",
+  authentication,
+  emailcontroller.GetTheOnePrticularOne
+);
 
 module.exports = router;
