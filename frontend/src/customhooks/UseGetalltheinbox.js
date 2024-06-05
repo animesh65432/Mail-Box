@@ -3,26 +3,26 @@ import { useState } from "react";
 import { baseurl } from "../utils";
 import { useSelector } from "react-redux";
 
-const UseSenthook = () => {
-  const [loading, setloading] = useState(false);
+const UseGetalltheinbox = () => {
+  const [loading, setloading] = useState([]);
   const idtoken = useSelector((state) => state.Auth.idtoken);
-  const senttomessagetouser = async (obj) => {
+  const fecthTheinboxmessages = async () => {
     setloading(true);
     try {
-      let response = await axios.post(`${baseurl}/Email/sentemail`, obj, {
+      let response = await axios.get(`${baseurl}/Email/getheinboxemail`, {
         headers: {
           idtoken: idtoken,
         },
       });
-      return response;
+      return response?.data?.data;
     } catch (error) {
-      return error;
+      return error?.data;
     } finally {
       setloading(false);
     }
   };
 
-  return [loading, senttomessagetouser];
+  return [loading, fecthTheinboxmessages];
 };
 
-export default UseSenthook;
+export default UseGetalltheinbox;

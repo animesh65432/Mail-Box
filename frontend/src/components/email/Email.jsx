@@ -1,6 +1,5 @@
 import JoditEditor from "jodit-react";
 import { useRef, useState } from "react";
-import { useSelector } from "react-redux";
 import UseSenthook from "../../customhooks/UseSenthook";
 
 const Email = () => {
@@ -8,7 +7,6 @@ const Email = () => {
   const [recipient, setRecipient] = useState("");
   const [subject, setSubject] = useState("");
   const [content, setContent] = useState("");
-  const idtoken = useSelector((state) => state.Auth.idtoken);
   const [loading, senttomessagetouser] = UseSenthook();
 
   const handleSend = async () => {
@@ -23,7 +21,6 @@ const Email = () => {
         recipient: recipient,
         subject: subject,
         content: conttentwithoutpfromlast,
-        idtoken: idtoken,
       };
 
       let response = await senttomessagetouser(emailData);

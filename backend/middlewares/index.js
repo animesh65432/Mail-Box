@@ -3,7 +3,7 @@ const { User } = require("../models");
 const { StatusCodes } = require("http-status-codes");
 const authentication = async (request, response, next) => {
   try {
-    let { idtoken } = request.body;
+    let { idtoken } = request.headers;
     let { email } = jsonwebtoken.verify(
       idtoken,
       process.env.jsonwebtokenscerect

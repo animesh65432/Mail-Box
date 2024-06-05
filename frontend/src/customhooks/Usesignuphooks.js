@@ -4,7 +4,6 @@ import { baseurl } from "../utils";
 
 const Usesignuphooks = () => {
   const [loading, setLoading] = useState(false);
-
   const createUser = async (obj) => {
     console.log(obj);
     setLoading(true);
@@ -12,9 +11,9 @@ const Usesignuphooks = () => {
       let response = await axios.post(`${baseurl}/user/singup`, obj);
       return response.data;
     } catch (error) {
-      throw error;
     } finally {
       setLoading(false);
+      return error.data;
     }
   };
 

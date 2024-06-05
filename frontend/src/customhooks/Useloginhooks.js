@@ -16,7 +16,7 @@ const UseLoginHooks = () => {
       dispatch(addthetoken(response?.data?.idtoken));
       return response.data;
     } catch (error) {
-      throw error;
+      throw error.data;
     } finally {
       setLoading(false);
     }

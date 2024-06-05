@@ -3,6 +3,21 @@ const { authentication } = require("../../middlewares");
 const { emailcontroller } = require("../../controllers");
 const router = express.Router();
 
-router.post("/senttomessage", authentication, emailcontroller.sentmessgaes);
+router.post("/sentemail", authentication, emailcontroller.senttheemail);
+router.get(
+  "/getheinboxemail",
+  authentication,
+  emailcontroller.GetTheInboxemail
+);
+router.get(
+  "/getthesentemail",
+  authentication,
+  emailcontroller.Getthesentboxemail
+);
+router.delete(
+  "/deleteEmail/:id",
+  authentication,
+  emailcontroller.deletetheemail
+);
 
 module.exports = router;

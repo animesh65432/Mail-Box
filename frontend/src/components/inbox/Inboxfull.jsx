@@ -1,13 +1,9 @@
-import React from "react";
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
-import fullemailshow from "../../customhooks/fullemailshow";
 
 const Inboxfull = () => {
   const { id } = useParams();
-  const currentuseremail = useSelector((state) => state.Auth.email);
-  const { loading, message } = fullemailshow(currentuseremail, id);
-
+  let loading = false;
+  let message = null;
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">

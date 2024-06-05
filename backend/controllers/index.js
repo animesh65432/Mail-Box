@@ -1,6 +1,16 @@
 const { createtheuuser, logintheuser } = require("./user");
-const { sentmessgaes } = require("./email");
+const {
+  senttheemail,
+  deletetheemail,
+  Getthesentboxemail,
+  GetTheInboxemail,
+} = require("./email");
 module.exports = {
   usercontroller: { createtheuuser, logintheuser },
-  emailcontroller: { sentmessgaes },
+  emailcontroller: {
+    senttheemail,
+    GetTheInboxemail,
+    deletetheemail,
+    Getthesentboxemail,
+  },
 };
