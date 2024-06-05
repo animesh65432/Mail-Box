@@ -1,13 +1,19 @@
 import axios from "axios";
 import { useState } from "react";
 import { baseurl } from "../utils";
+import { useSelector } from "react-redux";
 
 const UsedeletetheEmail = () => {
-  const [loading, setloading] = useState(false);
+  const [emailloading, setloading] = useState(false);
+  const idtoken = useSelector((state) => state.Auth.idtoken);
   const deletetheemail = async (id) => {
     setloading(true);
     try {
-      let response = await axios.delete(`${baseurl}/Email/deleteEmail/${id}`);
+      let response = await axios.delete(`${baseurl}/Email/deleteEmail/${id}`, {
+        headers: {
+          idtoken: idtoken,
+        },
+      });
       console.log(response);
     } catch (error) {
       console.log(error);
@@ -16,7 +22,7 @@ const UsedeletetheEmail = () => {
     }
   };
 
-  return [loading, deletetheemail];
+  return [emailloading, deletetheemail];
 };
 
 export default UsedeletetheEmail;

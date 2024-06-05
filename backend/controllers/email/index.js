@@ -97,18 +97,33 @@ const Getthesentboxemail = async (request, response) => {
 const deletetheemail = async (request, response) => {
   try {
     const { id } = request.params;
-    if (!id)
-      return response.status(StatusCodes.BAD_GATEWAY).json({
-        data: "please give the id",
+    const currentUser = request.user;
+
+    if (!id) {
+      return response.status(StatusCodes.BAD_REQUEST).json({
+        data: "Please provide the email ID",
       });
-    await Content.findById(id);
+    }
+    const email = await Messages.findOne({
+      sender: currentUser._id,
+      content: [id],
+    });
+
+    if (!email) {
+      return response.status(StatusCodes.NOT_FOUND).json({
+        data: "Email not found",
+      });
+    }
+
+    await email.deleteOne();
 
     return response.status(StatusCodes.OK).json({
-      data: "sucessfully delete it",
+      data: "Successfully deleted the email",
     });
   } catch (error) {
+    console.error("Error deleting email:", error);
     return response.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-      data: "internal server errors",
+      data: "Internal server error",
     });
   }
 };

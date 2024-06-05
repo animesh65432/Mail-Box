@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import UseGetalltheinbox from "../../customhooks/UseGetalltheinbox";
+import UsedeletetheEmail from "../../customhooks/UsedeletetheEmail";
 
 const Inbox = () => {
   const [messages, setMessages] = useState([]);
   const [loading, fetchAllTheInboxEmail] = UseGetalltheinbox();
+  const [emailloading, deletetheemail] = UsedeletetheEmail();
 
   const fetchData = async () => {
     try {
@@ -19,7 +21,11 @@ const Inbox = () => {
   }, []);
 
   const handleDeleteEmail = async (id) => {
-    // Implement delete functionality here
+    try {
+      let result = deletetheemail(id);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -38,13 +44,17 @@ const Inbox = () => {
                     <h3>Content:</h3>
                     <ul>
                       {message.content.map((content) => (
-                        <li key={content._id}>{content.content}</li>
+                        <div key={content._id}>
+                          {content.content}
+                          <button
+                            onClick={() => handleDeleteEmail(content._id)}
+                          >
+                            Delete
+                          </button>
+                        </div>
                       ))}
                     </ul>
                   </div>
-                  <button onClick={() => handleDeleteEmail(message._id)}>
-                    Delete
-                  </button>
                 </div>
               ))}
             </div>
